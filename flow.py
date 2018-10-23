@@ -54,11 +54,20 @@ class HitBox(cocos.sprite.Sprite):
         self.position = x,y
 
 class HitBoxes(cocos.layer.Layer):
+    is_event_handler = True
+
     def __init__(self):
         super(HitBoxes, self).__init__()
+        self.hitBoxes = []
         for pos in g_hitBoxPositions:
             sprite = HitBox(pos, g_hitBoxHeight)
             self.add(sprite)
+            self.hitBoxes.append(sprite)
+
+    def on_key_press (self, k, modifiers):
+        if (k in g_keyBindings):
+            hitbox = self.hitBoxes[g_keyBindings.index(k)]
+            hitbox.do(ac.ScaleTo(1.2, 0.05) + ac.ScaleTo(1, 0.1))
 
 class FallingBox(cocos.sprite.Sprite):
     def __init__(self, x, y):
@@ -74,7 +83,7 @@ class FallingBoxes(cocos.layer.Layer):
         super(FallingBoxes, self).__init__()
         self.schedule_interval(self.generateBox, 1)
         self.boxes = []
-        for col in g_keyBindings:
+        for range in g_keyBindings:
             self.boxes.append([])
 
         self.text = cocos.text.Label("", x=100, y=280)
@@ -90,12 +99,13 @@ class FallingBoxes(cocos.layer.Layer):
     def on_key_press (self, k, modifiers):
         if (k in g_keyBindings):
             children = self.boxes[g_keyBindings.index(k)]
-            bestOne = min([abs(child.y - g_hitBoxHeight) for child in children])
-            self.text.element.text = str(bestOne)
-            bestChild = [child for child in children if abs(child.y - g_hitBoxHeight) == bestOne][0] #yuck
-            if(bestChild and bestOne < 10):
-                action = ac.FadeOut(0.25) + ac.CallFuncS(self.remove_child)
-                bestChild.do(action)
+            if(children):
+                bestOne = min([abs(child.y - g_hitBoxHeight) for child in children])
+                self.text.element.text = str(bestOne)
+                bestChild = [child for child in children if abs(child.y - g_hitBoxHeight) == bestOne][0] #yuck
+                if(bestChild and bestOne < 10):
+                    action = ac.FadeOut(0.25) + ac.CallFuncS(self.remove_child)
+                    bestChild.do(action)
 
     def remove_child(self, sprite):
         self.remove(sprite)
