@@ -46,9 +46,9 @@ class FallingBoxesLayer(cocos.layer.Layer):
                 bestOne = min([abs(child.y - g.hitBoxHeight) for child in children])
                 self.text.element.text = str(g.keyBindings.index(k)) + " " + str(bestOne)
                 bestChild = [child for child in children if abs(child.y - g.hitBoxHeight) == bestOne][0] #yuck
-                if(bestChild and bestOne < 40):
+                if(bestChild and bestOne < 10):
                     children.remove(bestChild)
-                    action = ac.FadeOut(0.25) + ac.CallFuncS(self.remove_child)
+                    action = (ac.MoveTo(bestChild.position) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
                     bestChild.do(action)
 
     def remove_child(self, sprite):
