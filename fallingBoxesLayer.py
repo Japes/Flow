@@ -18,6 +18,13 @@ class FallingBoxSprite(cocos.sprite.Sprite):
         self.position = x,y
         action = ac.MoveTo((self.position[0], -g.consts["window"]["height"]*1.25), 8)
         self.do(action)
+        self.schedule_interval(self.checkForDeath, 0.25)
+
+    def checkForDeath(self, dt):
+        if(self.y < -g.screenHeight/10):
+            self.kill()
+            g.currentSpeed -= 1
+
 
 class FallingBoxesLayer(cocos.layer.Layer):
     is_event_handler = True
@@ -50,6 +57,7 @@ class FallingBoxesLayer(cocos.layer.Layer):
                     children.remove(bestChild)
                     action = (ac.MoveTo(bestChild.position) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
                     bestChild.do(action)
+                    g.currentSpeed += 1
 
     def remove_child(self, sprite):
         self.remove(sprite)

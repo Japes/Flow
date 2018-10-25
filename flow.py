@@ -11,6 +11,7 @@ import random
 
 #my stuff
 import flowglobals as g
+import backgroundLayer
 import fallingBoxesLayer
 import hitBoxesLayer
 
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     # director init takes the same arguments as pyglet.window
     cocos.director.director.init(**g.consts['window'])
 
-    main_scene = cocos.scene.Scene(cocos.layer.ColorLayer(64, 64, 224, 255))
+    main_scene = cocos.scene.Scene(backgroundLayer.BackgroundLayer())
 
     monk_layer = MonkLayer()
     main_scene.add(monk_layer)

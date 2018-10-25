@@ -36,5 +36,8 @@ screenHeight = consts["window"]["height"]
 screenWidth = consts["window"]["width"]
 hitBoxHeight = screenHeight/5
 
+currentSpeed = 0 #speed at which you are ascending
+currentLevel = 0 #position along the track
+
 keyBindings =     [key.D, key.F, key.J, key.K]     # the buttons in order from left to right
 hitBoxPositions = [screenWidth/4 - screenWidth/16, screenWidth/4 + screenWidth/16, screenWidth*3/4 - screenWidth/16, screenWidth*3/4 + screenWidth/16]     # x coords of hitboxes in order from left to right
