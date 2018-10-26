@@ -23,7 +23,13 @@ class FallingBoxSprite(cocos.sprite.Sprite):
     def checkForDeath(self, dt):
         if(self.y < -g.screenHeight/10):
             self.kill()
-            g.currentSpeed -= 1
+            if(g.currentSpeed > 5):
+                g.currentSpeed /= 2
+            elif(g.currentSpeed < -5):
+                g.currentSpeed *= 2
+            else:
+                g.currentSpeed -= 10
+
 
 
 class FallingBoxesLayer(cocos.layer.Layer):
@@ -53,11 +59,17 @@ class FallingBoxesLayer(cocos.layer.Layer):
                 bestOne = min([abs(child.y - g.hitBoxHeight) for child in children])
                 self.text.element.text = str(g.keyBindings.index(k)) + " " + str(bestOne)
                 bestChild = [child for child in children if abs(child.y - g.hitBoxHeight) == bestOne][0] #yuck
-                if(bestChild and bestOne < 10):
-                    children.remove(bestChild)
-                    action = (ac.MoveTo(bestChild.position) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
-                    bestChild.do(action)
-                    g.currentSpeed += 1
+                if(bestChild):
+                    if(bestOne < 7.5):
+                        children.remove(bestChild)
+                        action = (ac.MoveTo((bestChild.x, g.hitBoxHeight)) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
+                        bestChild.do(action)
+                        g.currentSpeed += 2.5
+                    elif (bestOne < 12.5):
+                        children.remove(bestChild)
+                        action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
+                        bestChild.do(action)
+                        g.currentSpeed += 1
 
     def remove_child(self, sprite):
         self.remove(sprite)
