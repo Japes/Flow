@@ -19,16 +19,21 @@ class FallingBoxSprite(cocos.sprite.Sprite):
         action = ac.MoveTo((self.position[0], -g.consts["window"]["height"]*1.25), 8)
         self.do(action)
         self.schedule_interval(self.checkForDeath, 0.25)
+        self.haveAppliedPenalty = False
 
     def checkForDeath(self, dt):
-        if(self.y < -g.screenHeight/10):
-            self.kill()
+        if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty)):
             if(g.currentSpeed > 5):
                 g.currentSpeed /= 2
             elif(g.currentSpeed < -5):
                 g.currentSpeed *= 2
             else:
                 g.currentSpeed -= 10
+            self.haveAppliedPenalty = True
+
+        if(self.y < -self.height):
+            self.kill()
+
 
 class FallingBoxesLayer(cocos.layer.Layer):
     is_event_handler = True

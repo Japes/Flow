@@ -5,6 +5,7 @@ import cocos
 import cocos.actions as ac
 from cocos.sprite import Sprite
 from pyglet.window import key
+from cocos.scenes import *
 
 #other stuff
 import random
@@ -43,11 +44,10 @@ class MainScene(cocos.scene.Scene):
         #win condition
         if(g.currentLevel > 1000):
             self.monk_layer.win()
-
+            
 if __name__ == "__main__":
     # director init takes the same arguments as pyglet.window
     cocos.director.director.init(**g.consts['window'])
 
     main_scene = MainScene()
-    cocos.director.director.run(main_scene)
-
+    cocos.director.director.run( FadeTransition( main_scene, 4, cocos.scene.Scene(cocos.layer.ColorLayer(255, 255, 255, 255))) )
