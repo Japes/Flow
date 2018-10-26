@@ -13,12 +13,16 @@ updateInterval = 0.2
 class BackgroundLayer(cocos.layer.Layer):
     def __init__(self):
         super(BackgroundLayer, self).__init__()
+        self.currentSprite = None
         self.backgroundSprites = [Sprite('assets/background.jpg', scale=2), Sprite('assets/background2.jpg', scale=2), Sprite('assets/background3.jpg', scale=2)]
         self.schedule_interval(self.updateSpeed, updateInterval)
         self.schedule(self.update)
 
         self.backgroundSprites[0].position = g.screenWidth/2, g.screenHeight/2
         self.setCurrentSprite(self.backgroundSprites[0])
+
+        self.currentSpriteStartingPos = 0
+        self.accumulatedLevel = 0
 
     #called by scheduler
     def updateSpeed(self, dt):
@@ -28,7 +32,8 @@ class BackgroundLayer(cocos.layer.Layer):
         self.nextSpr.do(move)
 
     def update(self, dt):
-        g.currentLevel = -(self.currentSprite.y)
+        g.currentLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
+        print(str(g.currentLevel))
 
         if(abs(self.nextSpr.y - g.screenHeight/2) < abs(self.currentSprite.y - g.screenHeight/2)) :
             self.setCurrentSprite(self.nextSpr)
@@ -36,16 +41,14 @@ class BackgroundLayer(cocos.layer.Layer):
         if(abs(self.prevSpr.y - g.screenHeight/2) < abs(self.currentSprite.y - g.screenHeight/2)) :
             self.setCurrentSprite(self.prevSpr)
 
-        #global game logic which probably doesn't belong here (but this is a convenient update loop):
-        if(g.currentSpeed > 15):
-            g.currentSpeed = 15
-        if(g.currentSpeed < -60):
-            g.currentSpeed = -60
-
     def setCurrentSprite(self, sprite):
+        if(self.currentSprite and sprite != self.currentSprite):
+            self.accumulatedLevel = g.currentLevel
+
         for child in self.get_children():
             self.remove(child)
         self.currentSprite = sprite
+        self.currentSpriteStartingPos = sprite.y
 
         self.nextSpr = self.nextSprite(self.currentSprite)
         self.nextSpr.position = g.screenWidth/2, self.currentSprite.y

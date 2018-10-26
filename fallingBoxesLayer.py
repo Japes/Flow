@@ -30,8 +30,6 @@ class FallingBoxSprite(cocos.sprite.Sprite):
             else:
                 g.currentSpeed -= 10
 
-
-
 class FallingBoxesLayer(cocos.layer.Layer):
     is_event_handler = True
 
