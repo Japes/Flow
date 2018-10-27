@@ -67,8 +67,6 @@ class MainScene(cocos.scene.Scene):
 
         #lose condition
         if(self.minSpeedCounter != 0 and time.time() - self.minSpeedCounter > 0 ):
-            print("LOSE CONDITION")
-            #cocos.director.director.replace(cocos.scene.Scene(cocos.layer.ColorLayer(255, 255, 255, 255) ))
             cocos.director.director.replace( FadeTransition( MainScene(), 2))
             self.unschedule(self.update)
 

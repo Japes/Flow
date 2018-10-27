@@ -36,5 +36,6 @@ screenHeight = consts["window"]["height"]
 screenWidth = consts["window"]["width"]
 hitBoxHeight = screenHeight/5
 
-keyBindings =     [key.D, key.F, key.J, key.K]     # the buttons in order from left to right
-hitBoxPositions = [screenWidth/4 - screenWidth/16, screenWidth/4 + screenWidth/16, screenWidth*3/4 - screenWidth/16, screenWidth*3/4 + screenWidth/16]     # x coords of hitboxes in order from left to right
+keyBindings =       [key.D, key.F, key.J, key.K]     # the buttons in order from left to right
+hitBoxPositions =   [screenWidth/4 - screenWidth/16, screenWidth/4 + screenWidth/16, screenWidth*3/4 - screenWidth/16, screenWidth*3/4 + screenWidth/16]     # x coords of hitboxes in order from left to right
+hitboxLabels =      ['assets/font/d.png', 'assets/font/f.png', 'assets/font/j.png', 'assets/font/k.png']
