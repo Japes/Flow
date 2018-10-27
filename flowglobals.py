@@ -2,14 +2,14 @@ from pyglet.window import key
 
 consts = {
     "window": {
-        "width": 800,
-        "height": 600,
+        "width": 1280,
+        "height": 720,
         "vsync": True,
         "resizable": True
     },
     "world": {
-        "width": 400,
-        "height": 300,
+        "width": 800,
+        "height": 600,
         "rPlayer": 8.0,
         "wall_scale_min": 0.75,  # relative to player
         "wall_scale_max": 2.25,  # relative to player

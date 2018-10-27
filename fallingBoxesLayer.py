@@ -46,8 +46,6 @@ class FallingBoxesLayer(cocos.layer.Layer):
         for range in g.keyBindings:
             self.boxes.append([])
 
-        self.text = cocos.text.Label("", x=100, y=280)
-        self.add(self.text)
         self.s = state
 
     #called by scheduler
@@ -62,7 +60,6 @@ class FallingBoxesLayer(cocos.layer.Layer):
             children = self.boxes[g.keyBindings.index(k)]
             if(children):
                 bestOne = min([abs(child.y - g.hitBoxHeight) for child in children])
-                self.text.element.text = str(g.keyBindings.index(k)) + " " + str(bestOne)
                 bestChild = [child for child in children if abs(child.y - g.hitBoxHeight) == bestOne][0] #yuck
                 if(bestChild):
                     if(bestOne < 7.5):

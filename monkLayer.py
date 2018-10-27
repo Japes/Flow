@@ -13,7 +13,9 @@ class MonkLayer(cocos.layer.Layer):
     def __init__(self):
         super(MonkLayer, self).__init__()
         self.add(MonkSprite(g.screenWidth/2, g.screenHeight/2))
-        self.text = cocos.text.Label("THANK YOU FOR PLAYING!", x=g.screenWidth/2, y=g.screenHeight/2)
 
     def win(self):
-        self.add(self.text)
+        self.winSprite = cocos.sprite.Sprite('assets/winscreen.PNG', position = (g.screenWidth/2, g.screenHeight/2))
+        self.add(self.winSprite)
+        action = ac.Delay(4) + ac.FadeOut(3)
+        self.winSprite.do(action)

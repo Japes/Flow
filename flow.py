@@ -22,6 +22,7 @@ class State():
     def __init__(self):
         self.currentSpeed = 0 #speed at which you are ascending
         self.currentLevel = 0 #position along the track
+        self.haveWon = False
 
 class MainScene(cocos.scene.Scene):
     def __init__(self):
@@ -61,12 +62,13 @@ class MainScene(cocos.scene.Scene):
             self.minSpeedCounter = 0 #reset counter
 
         #win condition
-        if(self.s.currentLevel > 1000):
+        if((not self.s.haveWon) and self.s.currentLevel > 100):
+            self.s.haveWon = True
             self.monk_layer.win()
-            #maybe just let the player carry on playing?
+            #we just let the player carry on playing.
 
         #lose condition
-        if(self.minSpeedCounter != 0 and time.time() - self.minSpeedCounter > 0 ):
+        if(self.minSpeedCounter != 0 and time.time() - self.minSpeedCounter > 4 ):
             cocos.director.director.replace( FadeTransition( MainScene(), 2))
             self.unschedule(self.update)
 
