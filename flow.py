@@ -33,7 +33,7 @@ class MainScene(cocos.scene.Scene):
         self.background_Layer = backgroundLayer.BackgroundLayer(self.s)
         self.add(self.background_Layer)
         
-        self.monk_layer = monkLayer.MonkLayer()
+        self.monk_layer = monkLayer.MonkLayer(self.s)
         self.add(self.monk_layer)
 
         self.hitbox_layer = hitBoxesLayer.HitBoxesLayer()

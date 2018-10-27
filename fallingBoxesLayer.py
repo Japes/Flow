@@ -40,19 +40,19 @@ class FallingBoxesLayer(cocos.layer.Layer):
 
     def __init__(self, state):
         super(FallingBoxesLayer, self).__init__()
+        self.s = state
         self.__bps_granularity = 8 #beats per second
-        self.schedule_interval(self.generateBox, 1/self.__bps_granularity)
         self.boxes = []
         for range in g.keyBindings:
             self.boxes.append([])
-
-        self.s = state
         self.__barCounter = 0 #which "beat" of the current musical "bar" are we on
 
         #"public api" stuff...
         self.maxBPS = 1
         self.ratioSkips = 0.0
         self.ratioInbetweeners = 0.25
+
+        self.schedule_interval(self.generateBox, 1/self.__bps_granularity)
 
     #called by scheduler
     def generateBox(self, dt):

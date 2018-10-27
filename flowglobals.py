@@ -40,4 +40,4 @@ keyBindings =       [key.D, key.F, key.J, key.K]     # the buttons in order from
 hitBoxPositions =   [screenWidth/4 - screenWidth/16, screenWidth/4 + screenWidth/16, screenWidth*3/4 - screenWidth/16, screenWidth*3/4 + screenWidth/16]     # x coords of hitboxes in order from left to right
 hitboxLabels =      ['assets/font/d.png', 'assets/font/f.png', 'assets/font/j.png', 'assets/font/k.png']
 
-script_startflying = 1000
+script_startflying = 2000
