@@ -1,5 +1,6 @@
 #other stuff
 import random
+import time
 
 #cocos stuff
 import cocos
@@ -23,7 +24,7 @@ class FallingBoxSprite(cocos.sprite.Sprite):
         self.s = state
 
     def checkForDeath(self, dt):
-        if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty) and self.s.haveStarted):
+        if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty)):
             if(self.s.currentSpeed > 5):
                 self.s.currentSpeed /= 2
             else:
@@ -72,6 +73,7 @@ class FallingBoxesLayer(cocos.layer.Layer):
 
     def on_key_press (self, k, modifiers):
         if (k in g.keyBindings):
+            self.s.timeLastKeyPress = time.time()
             children = self.boxes[g.keyBindings.index(k)]
             if(children):
                 bestOne = min([abs(child.y - g.hitBoxHeight) for child in children])
@@ -87,7 +89,7 @@ class FallingBoxesLayer(cocos.layer.Layer):
                         action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 1
-                    elif(self.s.haveStarted):
+                    else:
                         #apply penalty! (to stop spamming)
                         self.s.currentSpeed -= 5
 

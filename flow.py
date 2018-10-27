@@ -20,10 +20,10 @@ import monkLayer
 
 class State():
     def __init__(self):
-        self.currentSpeed = 0 #speed at which you are ascending
-        self.currentLevel = 0 #position along the track
-        self.haveStarted = False #indicates whether we should start applying penalties
+        self.currentSpeed = 0 #speed at which you are ascending (in pixels per frame)
+        self.currentLevel = 0 #position along the path to enlightenment
         self.haveWon = False
+        self.timeLastKeyPress = time.time()
 
 class MainScene(cocos.scene.Scene):
     def __init__(self):
@@ -46,35 +46,33 @@ class MainScene(cocos.scene.Scene):
         self.schedule(self.update)
 
     def reset(self):
-        self.minSpeedCounter = 0
         self.s.currentSpeed = 0
         self.s.currentLevel = 0
 
+    #main game logic loop
     def update(self, dt):
         print(str(self.s.currentLevel))
 
+        #limit speed, check for death
         maxSpeed = 15
         minSpeed = -45
-        if(self.s.currentSpeed > maxSpeed):
-            self.s.currentSpeed = maxSpeed
-        elif(self.s.currentSpeed < minSpeed):
-            self.s.currentSpeed = minSpeed
-            if(self.minSpeedCounter == 0):
-                self.minSpeedCounter = time.time()
-        elif(minSpeed < self.s.currentSpeed < maxSpeed):
-            self.minSpeedCounter = 0 #reset counter
+        self.s.currentSpeed = min(self.s.currentSpeed, maxSpeed)
+        self.s.currentSpeed = max(self.s.currentSpeed, minSpeed)
 
-        if(self.s.currentLevel > 75):
-            self.s.haveStarted = True
+        #update level based on speed
+        self.s.currentLevel += self.s.currentSpeed
+        self.s.currentLevel = max(0, self.s.currentLevel)
+        if(self.s.currentLevel == 0):
+            self.s.currentSpeed = max(0, self.s.currentSpeed) #can't sink lower
 
         #win condition
-        if((not self.s.haveWon) and self.s.currentLevel > 1000):
+        if((not self.s.haveWon) and self.s.currentLevel > 10000):
             self.s.haveWon = True
             self.monk_layer.win()
             #we just let the player carry on playing.
 
-        #lose condition
-        if(self.minSpeedCounter != 0 and time.time() - self.minSpeedCounter > 4 ):
+        #"lose condition"
+        if(time.time() - self.s.timeLastKeyPress > 10 ):
             cocos.director.director.replace( FadeTransition( MainScene(), 2))
             self.unschedule(self.update)
 

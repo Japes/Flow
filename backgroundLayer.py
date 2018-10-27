@@ -16,6 +16,8 @@ class BackgroundLayer(cocos.layer.Layer):
         self.s = state
         self.currentSpriteStartingPos = 0
         self.accumulatedLevel = 0
+        self.currentBackgroundLevel = 0 #absolute scroll position of background.  Not to be confused with state.currentLevel
+
         self.currentSprite = None
         self.backgroundSprites = [Sprite('assets/background.jpg', scale=2), Sprite('assets/background2.jpg', scale=2), Sprite('assets/background3.jpg', scale=2)]
         self.schedule_interval(self.updateSpeed, updateInterval)
@@ -27,14 +29,15 @@ class BackgroundLayer(cocos.layer.Layer):
 
     #called by scheduler
     def updateSpeed(self, dt):
-        move = ac.MoveBy((0, -self.s.currentSpeed), duration=updateInterval)
-        self.currentSprite.do(move)
-        self.prevSpr.do(move)
-        self.nextSpr.do(move)
+        if(self.s.currentLevel > g.script_startflying):
+            self.currentSprite.do(ac.MoveTo((g.screenWidth/2, self.currentSprite.y -self.s.currentSpeed), duration=updateInterval))
+            self.prevSpr.do(ac.MoveTo((g.screenWidth/2, self.prevSpr.y -self.s.currentSpeed), duration=updateInterval))
+            self.nextSpr.do(ac.MoveTo((g.screenWidth/2, self.nextSpr.y -self.s.currentSpeed), duration=updateInterval))
+
 
     def update(self, dt):
         #print("acclev: " + str(self.accumulatedLevel) + " startingPos: " + str(self.currentSpriteStartingPos) + " currentY: " + str(self.currentSprite.y))
-        self.s.currentLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
+        self.currentBackgroundLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
         #print(str(self.s.currentLevel))
 
         if(abs(self.nextSpr.y - g.screenHeight/2) < abs(self.currentSprite.y - g.screenHeight/2)) :
@@ -45,7 +48,7 @@ class BackgroundLayer(cocos.layer.Layer):
 
     def setCurrentSprite(self, sprite):
         if(self.currentSprite and sprite != self.currentSprite):
-            self.accumulatedLevel = self.s.currentLevel
+            self.accumulatedLevel = self.currentBackgroundLevel
 
         for child in self.get_children():
             self.remove(child)
