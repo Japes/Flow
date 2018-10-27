@@ -22,6 +22,7 @@ class State():
     def __init__(self):
         self.currentSpeed = 0 #speed at which you are ascending
         self.currentLevel = 0 #position along the track
+        self.haveStarted = False #indicates whether we should start applying penalties
         self.haveWon = False
 
 class MainScene(cocos.scene.Scene):
@@ -50,6 +51,8 @@ class MainScene(cocos.scene.Scene):
         self.s.currentLevel = 0
 
     def update(self, dt):
+        print(str(self.s.currentLevel))
+        
         maxSpeed = 15
         minSpeed = -45
         if(self.s.currentSpeed > maxSpeed):
@@ -60,6 +63,9 @@ class MainScene(cocos.scene.Scene):
                 self.minSpeedCounter = time.time()
         elif(minSpeed < self.s.currentSpeed < maxSpeed):
             self.minSpeedCounter = 0 #reset counter
+
+        if(self.s.currentLevel > 10):
+            self.s.haveStarted = True
 
         #win condition
         if((not self.s.haveWon) and self.s.currentLevel > 100):

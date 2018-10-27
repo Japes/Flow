@@ -23,7 +23,7 @@ class FallingBoxSprite(cocos.sprite.Sprite):
         self.s = state
 
     def checkForDeath(self, dt):
-        if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty)):
+        if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty) and self.s.haveStarted):
             if(self.s.currentSpeed > 5):
                 self.s.currentSpeed /= 2
             elif(self.s.currentSpeed < -5):

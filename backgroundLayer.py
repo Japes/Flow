@@ -14,6 +14,8 @@ class BackgroundLayer(cocos.layer.Layer):
     def __init__(self, state):
         super(BackgroundLayer, self).__init__()
         self.s = state
+        self.currentSpriteStartingPos = 0
+        self.accumulatedLevel = 0
         self.currentSprite = None
         self.backgroundSprites = [Sprite('assets/background.jpg', scale=2), Sprite('assets/background2.jpg', scale=2), Sprite('assets/background3.jpg', scale=2)]
         self.schedule_interval(self.updateSpeed, updateInterval)
@@ -22,8 +24,6 @@ class BackgroundLayer(cocos.layer.Layer):
         self.backgroundSprites[0].position = g.screenWidth/2, g.screenHeight/2
         self.setCurrentSprite(self.backgroundSprites[0])
 
-        self.currentSpriteStartingPos = 0
-        self.accumulatedLevel = 0
 
     #called by scheduler
     def updateSpeed(self, dt):
@@ -33,6 +33,7 @@ class BackgroundLayer(cocos.layer.Layer):
         self.nextSpr.do(move)
 
     def update(self, dt):
+        #print("acclev: " + str(self.accumulatedLevel) + " startingPos: " + str(self.currentSpriteStartingPos) + " currentY: " + str(self.currentSprite.y))
         self.s.currentLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
         #print(str(self.s.currentLevel))
 
@@ -64,6 +65,7 @@ class BackgroundLayer(cocos.layer.Layer):
         self.add(self.currentSprite)
         self.add(self.nextSpr)
         self.add(self.prevSpr)
+
         self.updateSpeed(1)
 
     def nextSprite(self, sprite):
