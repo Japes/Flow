@@ -11,8 +11,9 @@ import flowglobals as g
 updateInterval = 0.2
 
 class BackgroundLayer(cocos.layer.Layer):
-    def __init__(self):
+    def __init__(self, state):
         super(BackgroundLayer, self).__init__()
+        self.s = state
         self.currentSprite = None
         self.backgroundSprites = [Sprite('assets/background.jpg', scale=2), Sprite('assets/background2.jpg', scale=2), Sprite('assets/background3.jpg', scale=2)]
         self.schedule_interval(self.updateSpeed, updateInterval)
@@ -26,14 +27,14 @@ class BackgroundLayer(cocos.layer.Layer):
 
     #called by scheduler
     def updateSpeed(self, dt):
-        move = ac.MoveBy((0, -g.currentSpeed), duration=updateInterval)
+        move = ac.MoveBy((0, -self.s.currentSpeed), duration=updateInterval)
         self.currentSprite.do(move)
         self.prevSpr.do(move)
         self.nextSpr.do(move)
 
     def update(self, dt):
-        g.currentLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
-        print(str(g.currentLevel))
+        self.s.currentLevel = self.accumulatedLevel + self.currentSpriteStartingPos - self.currentSprite.y
+        #print(str(self.s.currentLevel))
 
         if(abs(self.nextSpr.y - g.screenHeight/2) < abs(self.currentSprite.y - g.screenHeight/2)) :
             self.setCurrentSprite(self.nextSpr)
@@ -43,7 +44,7 @@ class BackgroundLayer(cocos.layer.Layer):
 
     def setCurrentSprite(self, sprite):
         if(self.currentSprite and sprite != self.currentSprite):
-            self.accumulatedLevel = g.currentLevel
+            self.accumulatedLevel = self.s.currentLevel
 
         for child in self.get_children():
             self.remove(child)
