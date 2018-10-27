@@ -39,19 +39,36 @@ class FallingBoxesLayer(cocos.layer.Layer):
 
     def __init__(self, state):
         super(FallingBoxesLayer, self).__init__()
-        self.schedule_interval(self.generateBox, 1)
+        self.__bps_granularity = 8 #beats per second
+        self.schedule_interval(self.generateBox, 1/self.__bps_granularity)
         self.boxes = []
         for range in g.keyBindings:
             self.boxes.append([])
 
         self.s = state
+        self.__barCounter = 0 #which "beat" of the current musical "bar" are we on
+
+        #"public api" stuff...
+        self.maxBPS = 1
+        self.ratioSkips = 0.0
+        self.ratioInbetweeners = 0.25
 
     #called by scheduler
     def generateBox(self, dt):
-        random_index = random.randrange(len(g.keyBindings))
-        sprite = FallingBoxSprite(g.hitBoxPositions[random_index], g.consts["window"]["height"]*1.25, self.s)
-        self.add(sprite)
-        self.boxes[random_index].append(sprite)
+        interval = self.__bps_granularity / self.maxBPS #time between beats
+        halfInterval = interval/2
+        isABeat = self.__barCounter % interval == 0
+        isAHalfBeat = self.__barCounter % halfInterval == 0
+        if(isABeat or (random.random() < self.ratioInbetweeners and isAHalfBeat)):
+            if(random.random() > self.ratioSkips):
+                random_index = random.randrange(len(g.keyBindings))
+                sprite = FallingBoxSprite(g.hitBoxPositions[random_index], g.consts["window"]["height"]*1.25, self.s)
+                self.add(sprite)
+                self.boxes[random_index].append(sprite)
+
+        self.__barCounter += 1
+        if(self.__barCounter >= self.__bps_granularity):
+            self.__barCounter = 0
 
     def on_key_press (self, k, modifiers):
         if (k in g.keyBindings):
@@ -65,7 +82,7 @@ class FallingBoxesLayer(cocos.layer.Layer):
                         action = (ac.MoveTo((bestChild.x, g.hitBoxHeight)) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 2.5
-                    elif (bestOne < 12.5):
+                    elif (bestOne < 17.5):
                         children.remove(bestChild)
                         action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
