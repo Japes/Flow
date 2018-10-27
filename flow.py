@@ -52,7 +52,7 @@ class MainScene(cocos.scene.Scene):
 
     def update(self, dt):
         print(str(self.s.currentLevel))
-        
+
         maxSpeed = 15
         minSpeed = -45
         if(self.s.currentSpeed > maxSpeed):
@@ -64,11 +64,11 @@ class MainScene(cocos.scene.Scene):
         elif(minSpeed < self.s.currentSpeed < maxSpeed):
             self.minSpeedCounter = 0 #reset counter
 
-        if(self.s.currentLevel > 10):
+        if(self.s.currentLevel > 75):
             self.s.haveStarted = True
 
         #win condition
-        if((not self.s.haveWon) and self.s.currentLevel > 100):
+        if((not self.s.haveWon) and self.s.currentLevel > 1000):
             self.s.haveWon = True
             self.monk_layer.win()
             #we just let the player carry on playing.

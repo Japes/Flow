@@ -26,10 +26,8 @@ class FallingBoxSprite(cocos.sprite.Sprite):
         if(self.y < (g.hitBoxHeight - self.height/2) and (not self.haveAppliedPenalty) and self.s.haveStarted):
             if(self.s.currentSpeed > 5):
                 self.s.currentSpeed /= 2
-            elif(self.s.currentSpeed < -5):
-                self.s.currentSpeed *= 2
             else:
-                self.s.currentSpeed -= 10
+                self.s.currentSpeed -= 7.5
             self.haveAppliedPenalty = True
 
         if(self.y < -self.height):
@@ -72,6 +70,9 @@ class FallingBoxesLayer(cocos.layer.Layer):
                         action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 1
+                    elif(self.s.haveStarted):
+                        #apply penalty! (to stop spamming)
+                        self.s.currentSpeed -= 5
 
     def remove_child(self, sprite):
         self.remove(sprite)
