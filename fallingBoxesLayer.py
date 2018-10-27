@@ -7,6 +7,7 @@ import cocos
 import cocos.actions as ac
 from cocos.sprite import Sprite
 from pyglet.window import key
+from cocos.audio.pygame.mixer import Sound
 
 #my stuff
 import flowglobals as g
@@ -47,6 +48,13 @@ class FallingBoxesLayer(cocos.layer.Layer):
             self.boxes.append([])
         self.__barCounter = 0 #which "beat" of the current musical "bar" are we on
 
+        self.sounds = []
+        for s in g.hitboxSounds:
+            self.sounds.append(Sound(s))
+        self.missSounds = []
+        for s in g.hitboxMissSounds:
+            self.missSounds.append(Sound(s))
+        
         #"public api" stuff...
         self.maxBPS = 1
         self.ratioSkips = 0.0
@@ -84,11 +92,13 @@ class FallingBoxesLayer(cocos.layer.Layer):
                         action = (ac.MoveTo((bestChild.x, g.hitBoxHeight)) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 2.5
+                        self.sounds[g.keyBindings.index(k)].play() # Play right now
                     elif (bestOne < 17.5):
                         children.remove(bestChild)
                         action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 1
+                        self.missSounds[g.keyBindings.index(k)].play() # Play right now
                     else:
                         #apply penalty! (to stop spamming)
                         self.s.currentSpeed -= 5

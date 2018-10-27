@@ -6,6 +6,7 @@ import cocos.actions as ac
 from cocos.sprite import Sprite
 from pyglet.window import key
 from cocos.scenes import *
+import cocos.audio.pygame.mixer
 
 #other stuff
 import random
@@ -51,7 +52,7 @@ class MainScene(cocos.scene.Scene):
 
     #main game logic loop
     def update(self, dt):
-        print(str(self.s.currentLevel))
+        #print(str(self.s.currentLevel))
 
         #limit speed, check for death
         maxSpeed = 15
@@ -66,7 +67,7 @@ class MainScene(cocos.scene.Scene):
             self.s.currentSpeed = max(0, self.s.currentSpeed) #can't sink lower
 
         #win condition
-        if((not self.s.haveWon) and self.s.currentLevel > 10000):
+        if((not self.s.haveWon) and self.s.currentLevel > 15000):
             self.s.haveWon = True
             self.monk_layer.win()
             #we just let the player carry on playing.
@@ -77,6 +78,7 @@ class MainScene(cocos.scene.Scene):
             self.unschedule(self.update)
 
 if __name__ == "__main__":
+    cocos.audio.pygame.mixer.init()
     # director init takes the same arguments as pyglet.window
     cocos.director.director.init(**g.consts['window'])
     cocos.director.director.run( FadeTransition( MainScene(), 3, cocos.scene.Scene(cocos.layer.ColorLayer(255, 255, 255, 255))) )
