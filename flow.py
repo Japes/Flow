@@ -68,32 +68,32 @@ class MainScene(cocos.scene.Scene):
 
         #difficulty curve
         if(self.s.currentLevel < g.script_startflying ) :
-            print("lvl1")
+            #print("lvl1")
             self.fallingBoxes_layer.maxBPS = 1
             self.fallingBoxes_layer.ratioSkips = 0.0
             self.fallingBoxes_layer.ratioInbetweeners = 0
         elif(self.s.currentLevel < g.script_2 ) :
-            print("lvl2")
+            #print("lvl2")
             self.fallingBoxes_layer.maxBPS = 1
             self.fallingBoxes_layer.ratioSkips = 0.0
             self.fallingBoxes_layer.ratioInbetweeners = 0.20
         elif(self.s.currentLevel < g.script_3 ) :
-            print("lvl3")
+            #print("lvl3")
             self.fallingBoxes_layer.maxBPS = 1
             self.fallingBoxes_layer.ratioSkips = 0.2
             self.fallingBoxes_layer.ratioInbetweeners = 0.25
         elif(self.s.currentLevel < g.script_4 ) :
-            print("lvl4")
+            #print("lvl4")
             self.fallingBoxes_layer.maxBPS = 1
             self.fallingBoxes_layer.ratioSkips = 0.3
             self.fallingBoxes_layer.ratioInbetweeners = 0.45
         elif(self.s.currentLevel < g.script_5 ) :
-            print("lvl5")
+            #print("lvl5")
             self.fallingBoxes_layer.maxBPS = 2
             self.fallingBoxes_layer.ratioSkips = 0
             self.fallingBoxes_layer.ratioInbetweeners = 0
         elif(self.s.currentLevel < g.script_win ) :
-            print("lvl6")
+            #print("lvl6")
             self.fallingBoxes_layer.maxBPS = 2
             self.fallingBoxes_layer.ratioSkips = 0.2
             self.fallingBoxes_layer.ratioInbetweeners = 0.2
