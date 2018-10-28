@@ -55,10 +55,11 @@ class FallingBoxesLayer(cocos.layer.Layer):
         for s in g.hitboxMissSounds:
             self.missSounds.append(Sound(s))
         
-        #"public api" stuff...
+        ###"public api" stuff...
         self.maxBPS = 1
         self.ratioSkips = 0.0
-        self.ratioInbetweeners = 0.25
+        self.ratioInbetweeners = 0
+        ###
 
         self.schedule_interval(self.generateBox, 1/self.__bps_granularity)
 
@@ -87,13 +88,13 @@ class FallingBoxesLayer(cocos.layer.Layer):
                 bestOne = min([abs(child.y - g.hitBoxHeight) for child in children])
                 bestChild = [child for child in children if abs(child.y - g.hitBoxHeight) == bestOne][0] #yuck
                 if(bestChild):
-                    if(bestOne < 7.5):
+                    if(bestOne < 8.5):
                         children.remove(bestChild)
                         action = (ac.MoveTo((bestChild.x, g.hitBoxHeight)) | ac.FadeOut(0.25) | ac.ScaleBy(1.75, 0.25) ) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)
                         self.s.currentSpeed += 2.5
                         self.sounds[g.keyBindings.index(k)].play() # Play right now
-                    elif (bestOne < 17.5):
+                    elif (bestOne < 20):
                         children.remove(bestChild)
                         action = (ac.FadeOut(0.25)) + ac.CallFuncS(self.remove_child)
                         bestChild.do(action)

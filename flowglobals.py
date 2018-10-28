@@ -42,4 +42,9 @@ hitboxLabels =      ['assets/font/d.png', 'assets/font/f.png', 'assets/font/j.pn
 hitboxSounds =      ['assets/sounds/a4.wav', 'assets/sounds/b4.wav', 'assets/sounds/e4.wav', 'assets/sounds/g4.wav']
 hitboxMissSounds =  ['assets/sounds/a3.wav', 'assets/sounds/b3.wav', 'assets/sounds/e4.wav', 'assets/sounds/g3.wav']
 
-script_startflying = 2000
+script_startflying = 2500
+script_2 = script_startflying + 17500 
+script_3 = script_2 + 20000
+script_4 = script_3 + 20000
+script_5 = script_4 + 20000
+script_win = script_5 + 20000
