@@ -42,7 +42,7 @@ class FallingBoxesLayer(cocos.layer.Layer):
     def __init__(self, state):
         super(FallingBoxesLayer, self).__init__()
         self.s = state
-        self.__bps_granularity = 8 #beats per second
+        self.__bps_granularity = 8.0 #beats per second
         self.boxes = []
         for range in g.keyBindings:
             self.boxes.append([])

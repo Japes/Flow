@@ -17,12 +17,14 @@ Linux (tested on ubuntu)
  - Python 3 (tested with python 3.5.2 )
    - "sudo apt install python3" or similar...
  - python modules:
-   - easiest to set up with pip ("sudo apt install python3-pip" or similar...)
-   - cocos2d ("pip3 install cocs2d")
+   - easiest to set up with pip ("sudo apt install python3-pip" or similar...). Then:
+   - "pip install pygame --user"
+   - "pip install cocos2d --user"
  - run "flow.py" with python to start the game!
 
 Windows
  - Python 3 (tested with 3.6.5)
+ - pygame ("pip install pygame")
  - cocos2d ("pip install cocos2d")
  - run "flow.py" with python to start the game!
 
