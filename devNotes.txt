@@ -1,0 +1,58 @@
+Make the monk hover
+	using the current pos, theres a story to it, chakras, hover, etc
+	background images
+
+red/evil buttons you're not supposed to hit
+boxes appear off the edge of your buttons - you need to figure out that you can press the next button
+
+"hold-down" buttons
+big one in the center - two middle buttons
+
+SOUND
+	music for programming episode 35 36:23 (time remaining)
+		twinkly synth notes and a weird distorted high pitched chant
+	tones for key presses and hits
+
+
+
+Hands up mode
+	combo?
+
+more interesting patterns
+	waves	
+
+
+distraction rectangles that fly up or sideways?
+
+THE STATE OF CONSCIOUSNESS--- looping, reincarnation.  you start at the bottom again
+
+    heaven(s) - abstract tie die
+    up into space - galaxies
+    the sky above the top of the mountain
+    chakras rising
+        somewhere between here and the top we need a "woah" thing like the new buttons
+    the monk in the monastary
+    the mountain
+    the city (traffic, noise)
+        interesting idle things going on
+    hell (demons, suffering souls)
+        lots of distractions and noise
+        maybe lots of red avoid blocks
+
+
+----
+
+
+
+`pip install pygame --user` then
+`pip install cocos2d --user` then
+`python flow.py` :slightly_smiling_face:
+its supposed to have sound, which isn't working on my box for some reason...
+
+JP [10:29 AM]
+damn, it seems to be broken actually...let me see what i can do
+
+JP [12:03 PM]
+ok so if you care, there is a one-liner fix for it
+change line 45 of `fallingBoxesLayer.py` to
+        `self.__bps_granularity = 8.0 #beats per second`
